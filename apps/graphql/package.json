@@ -1,0 +1,29 @@
+{
+  "name": "graphql-yoga-server",
+  "version": "1.0.0",
+  "description": "A simple GraphQL server using graphql-yoga",
+  "private": true,
+  "dependencies": {
+    "@repo/shared-config": "workspace:*",
+    "graphql": "^16.8.1",
+    "graphql-scalars": "^1.23.0",
+    "graphql-yoga": "^5.3.1"
+  },
+  "devDependencies": {
+    "@eddeee888/gcg-typescript-resolver-files": "^0.9.2",
+    "@graphql-codegen/cli": "^5.0.2",
+    "@parcel/watcher": "^2.4.1",
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^20.11.24",
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "typescript": "^5.4.5"
+  },
+  "scripts": {
+    "codegen": "graphql-codegen",
+    "codegen:watch": "graphql-codegen --watch",
+    "dev": "cross-env NODE_ENV=development & concurrently \"npm run codegen:watch\" \"npx ts-node-dev --exit-child --respawn server.ts\"",
+    "prestart": "npm run codegen",
+    "start": "npx ts-node server.ts"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "@repo/shared-config",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "typescript": "latest"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*"
+  }
+}

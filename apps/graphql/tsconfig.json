@@ -1,0 +1,23 @@
+{
+  "extends": "@repo/typescript-config/graphql-server.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "esModuleInterop": true,
+    "incremental": true,
+    "isolatedModules": true,
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true
+  },
+  "include": [
+    "**/*.config.js",
+    ".eslintrc.js",
+    "next-env.d.ts",
+    "next.config.mjs",
+    "**/*.ts"
+  ],
+  "exclude": ["node_modules"]
+}
