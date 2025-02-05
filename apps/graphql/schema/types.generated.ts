@@ -18,8 +18,14 @@ export type Scalars = {
   DateTime: { input: Date | string; output: Date | string; }
 };
 
+export type Hello = {
+  __typename?: 'Hello';
+  message: Scalars['String']['output'];
+};
+
 export type Query = {
   __typename?: 'Query';
+  hello?: Maybe<Hello>;
   user?: Maybe<User>;
 };
 
@@ -110,20 +116,22 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
+  Hello: ResolverTypeWrapper<Hello>;
+  String: ResolverTypeWrapper<Scalars['String']['output']>;
   Query: ResolverTypeWrapper<{}>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   User: ResolverTypeWrapper<UserMapper>;
-  String: ResolverTypeWrapper<Scalars['String']['output']>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   DateTime: Scalars['DateTime']['output'];
+  Hello: Hello;
+  String: Scalars['String']['output'];
   Query: {};
   ID: Scalars['ID']['output'];
   User: UserMapper;
-  String: Scalars['String']['output'];
   Boolean: Scalars['Boolean']['output'];
 };
 
@@ -131,7 +139,13 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'DateTime';
 }
 
+export type HelloResolvers<ContextType = any, ParentType extends ResolversParentTypes['Hello'] = ResolversParentTypes['Hello']> = {
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  hello?: Resolver<Maybe<ResolversTypes['Hello']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryuserArgs, 'id'>>;
 };
 
@@ -147,6 +161,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type Resolvers<ContextType = any> = {
   DateTime?: GraphQLScalarType;
+  Hello?: HelloResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
