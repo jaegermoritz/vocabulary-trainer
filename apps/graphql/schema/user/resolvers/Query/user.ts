@@ -5,7 +5,7 @@ export const user: NonNullable<QueryResolvers['user']> = async (
   _ctx
 ) => {
   return {
-    id: "001",
+    id: "005",
     firstName: "Bart",
     lastName: "Simpson",
     fullName: "Bart Simpson",
