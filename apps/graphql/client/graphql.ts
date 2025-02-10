@@ -68,6 +68,23 @@ export type MutationPostLinkArgs = {
   url: Scalars["String"]["input"];
 };
 
+export type Link = {
+  __typename?: "Link";
+  description: Scalars["String"]["output"];
+  id: Scalars["ID"]["output"];
+  url: Scalars["String"]["output"];
+};
+
+export type Mutation = {
+  __typename?: "Mutation";
+  postLink: Link;
+};
+
+export type MutationPostLinkArgs = {
+  description: Scalars["String"]["input"];
+  url: Scalars["String"]["input"];
+};
+
 export type Query = {
   __typename?: "Query";
   comment?: Maybe<Comment>;
