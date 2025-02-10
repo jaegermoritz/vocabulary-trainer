@@ -1,5 +1,5 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import { UserMapper } from './user/schema.mappers';
+import { GraphQLContext } from '../context';
 export type Maybe<T> = T | null | undefined;
 export type InputMaybe<T> = T | null | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -23,25 +23,28 @@ export type Hello = {
   message: Scalars['String']['output'];
 };
 
+export type Link = {
+  __typename?: 'Link';
+  description: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  url: Scalars['String']['output'];
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  postLink: Link;
+};
+
+
+export type MutationpostLinkArgs = {
+  description: Scalars['String']['input'];
+  url: Scalars['String']['input'];
+};
+
 export type Query = {
   __typename?: 'Query';
+  feed: Array<Link>;
   hello?: Maybe<Hello>;
-  user?: Maybe<User>;
-};
-
-
-export type QueryuserArgs = {
-  id: Scalars['ID']['input'];
-};
-
-export type User = {
-  __typename?: 'User';
-  email: Scalars['String']['output'];
-  firstName: Scalars['String']['output'];
-  fullName: Scalars['String']['output'];
-  id: Scalars['ID']['output'];
-  isAdmin: Scalars['Boolean']['output'];
-  lastName: Scalars['String']['output'];
 };
 
 
@@ -118,9 +121,10 @@ export type ResolversTypes = {
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   Hello: ResolverTypeWrapper<Hello>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
-  Query: ResolverTypeWrapper<{}>;
+  Link: ResolverTypeWrapper<Link>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
-  User: ResolverTypeWrapper<UserMapper>;
+  Mutation: ResolverTypeWrapper<{}>;
+  Query: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
 };
 
@@ -129,9 +133,10 @@ export type ResolversParentTypes = {
   DateTime: Scalars['DateTime']['output'];
   Hello: Hello;
   String: Scalars['String']['output'];
-  Query: {};
+  Link: Link;
   ID: Scalars['ID']['output'];
-  User: UserMapper;
+  Mutation: {};
+  Query: {};
   Boolean: Scalars['Boolean']['output'];
 };
 
@@ -139,30 +144,32 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'DateTime';
 }
 
-export type HelloResolvers<ContextType = any, ParentType extends ResolversParentTypes['Hello'] = ResolversParentTypes['Hello']> = {
+export type HelloResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Hello'] = ResolversParentTypes['Hello']> = {
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  hello?: Resolver<Maybe<ResolversTypes['Hello']>, ParentType, ContextType>;
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryuserArgs, 'id'>>;
-};
-
-export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
-  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  fullName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+export type LinkResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Link'] = ResolversParentTypes['Link']> = {
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  isAdmin?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Resolvers<ContextType = any> = {
+export type MutationResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  postLink?: Resolver<ResolversTypes['Link'], ParentType, ContextType, RequireFields<MutationpostLinkArgs, 'description' | 'url'>>;
+};
+
+export type QueryResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  feed?: Resolver<Array<ResolversTypes['Link']>, ParentType, ContextType>;
+  hello?: Resolver<Maybe<ResolversTypes['Hello']>, ParentType, ContextType>;
+};
+
+export type Resolvers<ContextType = GraphQLContext> = {
   DateTime?: GraphQLScalarType;
   Hello?: HelloResolvers<ContextType>;
+  Link?: LinkResolvers<ContextType>;
+  Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
-  User?: UserResolvers<ContextType>;
 };
 
