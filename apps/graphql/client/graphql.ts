@@ -22,25 +22,28 @@ export type Hello = {
   message: Scalars['String']['output'];
 };
 
+export type Link = {
+  __typename?: 'Link';
+  description: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  url: Scalars['String']['output'];
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  postLink: Link;
+};
+
+
+export type MutationPostLinkArgs = {
+  description: Scalars['String']['input'];
+  url: Scalars['String']['input'];
+};
+
 export type Query = {
   __typename?: 'Query';
+  feed: Array<Link>;
   hello?: Maybe<Hello>;
-  user?: Maybe<User>;
-};
-
-
-export type QueryUserArgs = {
-  id: Scalars['ID']['input'];
-};
-
-export type User = {
-  __typename?: 'User';
-  email: Scalars['String']['output'];
-  firstName: Scalars['String']['output'];
-  fullName: Scalars['String']['output'];
-  id: Scalars['ID']['output'];
-  isAdmin: Scalars['Boolean']['output'];
-  lastName: Scalars['String']['output'];
 };
 
 export type MyQueryQueryVariables = Exact<{ [key: string]: never; }>;

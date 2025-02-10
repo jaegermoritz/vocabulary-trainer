@@ -1,15 +1,14 @@
 /* This file was automatically generated. DO NOT UPDATE MANUALLY. */
     import type   { Resolvers } from './types.generated';
-    import    { hello as Query_hello } from './hello/resolvers/Query/hello';
-import    { user as Query_user } from './user/resolvers/Query/user';
+    import    { feed as Query_feed } from './feed/resolvers/Query/feed';
+import    { hello as Query_hello } from './hello/resolvers/Query/hello';
+import    { postLink as Mutation_postLink } from './feed/resolvers/Mutation/postLink';
 import    { Hello } from './hello/resolvers/Hello';
-import    { User } from './user/resolvers/User';
 import    { DateTimeResolver } from 'graphql-scalars';
     export const resolvers: Resolvers = {
-      Query: { hello: Query_hello,user: Query_user },
-      
+      Query: { feed: Query_feed,hello: Query_hello },
+      Mutation: { postLink: Mutation_postLink },
       
       Hello: Hello,
-User: User,
 DateTime: DateTimeResolver
     }

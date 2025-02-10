@@ -11,7 +11,12 @@ const config: CodegenConfig = {
         documentMode: "string",
       },
     },
-    schema: defineConfig(),
+    schema: defineConfig({
+      resolverGeneration: "minimal",
+      typesPluginsConfig: {
+        contextType: "../context#GraphQLContext",
+      },
+    }),
   },
 };
 export default config;
