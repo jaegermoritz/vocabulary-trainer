@@ -5,7 +5,7 @@ Before you begin, ensure you have met the following requirements:
 - You have installed the latest version of [Node.js and npm](https://nodejs.org/en/download/).
 - You have installed [pnpm](https://pnpm.io/installation). You can install it by running `npm install -g pnpm`.
 - You have installed [turbo](https://turbo.sh/). You can install it by running `npm install -g turbo-cli`.
-- You have a `Unix/Linux` machine. This project uses `cross-env`, which might not work properly on Windows.
+
 - You have read [GraphQL Code Generator](https://graphql-code-generator.com/) documentation to understand how code generation works in this project.
 
 ## Setup

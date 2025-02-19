@@ -17,6 +17,14 @@ export type Scalars = {
   DateTime: { input: any; output: any; }
 };
 
+export type Comment = {
+  __typename?: 'Comment';
+  body: Scalars['String']['output'];
+  createdAt: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  link: Link;
+};
+
 export type Hello = {
   __typename?: 'Hello';
   message: Scalars['String']['output'];
@@ -24,6 +32,7 @@ export type Hello = {
 
 export type Link = {
   __typename?: 'Link';
+  comments: Array<Comment>;
   description: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   url: Scalars['String']['output'];
@@ -31,7 +40,14 @@ export type Link = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  postCommentOnLink: Comment;
   postLink: Link;
+};
+
+
+export type MutationPostCommentOnLinkArgs = {
+  body: Scalars['String']['input'];
+  linkId: Scalars['ID']['input'];
 };
 
 
@@ -42,9 +58,37 @@ export type MutationPostLinkArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  comment?: Maybe<Comment>;
   feed: Array<Link>;
   hello?: Maybe<Hello>;
+  info: Scalars['String']['output'];
+  link?: Maybe<Link>;
 };
+
+
+export type QueryCommentArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryFeedArgs = {
+  filterNeedle?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueryLinkArgs = {
+  id: Scalars['ID']['input'];
+};
+
+export type PostLinkMutationVariables = Exact<{
+  description: Scalars['String']['input'];
+  url: Scalars['String']['input'];
+}>;
+
+
+export type PostLinkMutation = { __typename?: 'Mutation', postLink: { __typename?: 'Link', id: string, description: string, url: string } };
 
 export type MyQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -66,6 +110,15 @@ export class TypedDocumentString<TResult, TVariables>
   }
 }
 
+export const PostLinkDocument = new TypedDocumentString(`
+    mutation PostLink($description: String!, $url: String!) {
+  postLink(description: $description, url: $url) {
+    id
+    description
+    url
+  }
+}
+    `) as unknown as TypedDocumentString<PostLinkMutation, PostLinkMutationVariables>;
 export const MyQueryDocument = new TypedDocumentString(`
     query MyQuery {
   hello {
