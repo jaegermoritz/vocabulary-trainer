@@ -38,6 +38,14 @@ export type Scalars = {
   DateTime: { input: Date | string; output: Date | string };
 };
 
+export type Comment = {
+  __typename?: "Comment";
+  body: Scalars["String"]["output"];
+  createdAt: Scalars["String"]["output"];
+  id: Scalars["ID"]["output"];
+  link: Link;
+};
+
 export type Hello = {
   __typename?: "Hello";
   message: Scalars["String"]["output"];
@@ -303,6 +311,7 @@ export type QueryResolvers<
 };
 
 export type Resolvers<ContextType = GraphQLContext> = {
+  Comment?: CommentResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   Hello?: HelloResolvers<ContextType>;
   Link?: LinkResolvers<ContextType>;

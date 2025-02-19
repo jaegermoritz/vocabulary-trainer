@@ -38,6 +38,14 @@ export type Comment = {
   link: Link;
 };
 
+export type Comment = {
+  __typename?: "Comment";
+  body: Scalars["String"]["output"];
+  createdAt: Scalars["String"]["output"];
+  id: Scalars["ID"]["output"];
+  link: Link;
+};
+
 export type Hello = {
   __typename?: "Hello";
   info: Scalars["String"]["output"];
@@ -56,6 +64,11 @@ export type Mutation = {
   __typename?: "Mutation";
   postCommentOnLink: Comment;
   postLink: Link;
+};
+
+export type MutationPostCommentOnLinkArgs = {
+  body: Scalars["String"]["input"];
+  linkId: Scalars["ID"]["input"];
 };
 
 export type MutationPostCommentOnLinkArgs = {
