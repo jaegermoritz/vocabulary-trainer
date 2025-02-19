@@ -1,9 +1,9 @@
 import { parse } from "graphql";
 import { buildHTTPExecutor } from "@graphql-tools/executor-http";
-import { yoga } from "./../yoga";
+import { yoga } from "../../yoga";
 
 // Mock the hello resolver to return static values for testing
-jest.mock("./../schema/hello/resolvers/Query/hello", () => ({
+jest.mock("./../../schema/hello/resolvers/Query/hello", () => ({
   hello: jest.fn().mockResolvedValue({ message: "Hello World!" }),
 }));
 
@@ -17,7 +17,7 @@ function assertSingleValue<TValue extends object>(
 
 const executor = buildHTTPExecutor({
   fetch: yoga.fetch,
-  endpoint: `http://localhost:4000/api/graphql`,
+  endpoint: `http://localhost:4000/graphql`,
 });
 
 describe("GraphQL Yoga Tests", () => {
