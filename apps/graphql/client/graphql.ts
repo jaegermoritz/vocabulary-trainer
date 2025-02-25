@@ -27,6 +27,7 @@ export type Comment = {
 
 export type Hello = {
   __typename?: 'Hello';
+  info: Scalars['String']['output'];
   message: Scalars['String']['output'];
 };
 
@@ -82,6 +83,14 @@ export type QueryLinkArgs = {
   id: Scalars['ID']['input'];
 };
 
+export type PostCommentMutationVariables = Exact<{
+  body: Scalars['String']['input'];
+  linkId: Scalars['ID']['input'];
+}>;
+
+
+export type PostCommentMutation = { __typename?: 'Mutation', postCommentOnLink: { __typename?: 'Comment', id: string, createdAt: string, body: string, link: { __typename?: 'Link', id: string } } };
+
 export type PostLinkMutationVariables = Exact<{
   description: Scalars['String']['input'];
   url: Scalars['String']['input'];
@@ -89,11 +98,6 @@ export type PostLinkMutationVariables = Exact<{
 
 
 export type PostLinkMutation = { __typename?: 'Mutation', postLink: { __typename?: 'Link', id: string, description: string, url: string } };
-
-export type MyQueryQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type MyQueryQuery = { __typename?: 'Query', hello?: { __typename?: 'Hello', message: string } | null };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -110,6 +114,18 @@ export class TypedDocumentString<TResult, TVariables>
   }
 }
 
+export const PostCommentDocument = new TypedDocumentString(`
+    mutation PostComment($body: String!, $linkId: ID!) {
+  postCommentOnLink(body: $body, linkId: $linkId) {
+    id
+    createdAt
+    body
+    link {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<PostCommentMutation, PostCommentMutationVariables>;
 export const PostLinkDocument = new TypedDocumentString(`
     mutation PostLink($description: String!, $url: String!) {
   postLink(description: $description, url: $url) {
@@ -119,10 +135,3 @@ export const PostLinkDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<PostLinkMutation, PostLinkMutationVariables>;
-export const MyQueryDocument = new TypedDocumentString(`
-    query MyQuery {
-  hello {
-    message
-  }
-}
-    `) as unknown as TypedDocumentString<MyQueryQuery, MyQueryQueryVariables>;
