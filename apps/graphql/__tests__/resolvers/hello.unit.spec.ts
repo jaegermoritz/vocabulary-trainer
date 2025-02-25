@@ -68,6 +68,9 @@ describe("hello resolver", () => {
     const result = await hello({}, {}, context, mockInfo);
 
     // Assert the result
-    expect(result).toEqual({ message: "Hello World!" });
+    expect(result).toEqual({
+      message: "Hello FOO!",
+      info: "This is a hello message",
+    });
   });
 });
