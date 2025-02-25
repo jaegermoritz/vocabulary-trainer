@@ -35,12 +35,19 @@
   },
   "scripts": {
     "dotenvx": "dotenvx",
+    "dotenvx:dev": "dotenvx run -f .development.env",
     "codegen": "graphql-codegen",
     "codegen:watch": "graphql-codegen --watch",
     "dev": "dotenvx run -f .development.env -- concurrently \"npm run codegen:watch\" \"npx ts-node-dev --exit-child --respawn server.ts\"",
     "prestart": "npm run codegen",
     "start": "npx ts-node server.ts",
-    "test": "dotenvx run -f .test.env -- jest --config jest.unit.config.ts",
-    "test:integration": "dotenvx run -f .test.env -- jest --detectOpenHandles --config jest.integration.config.ts"
+    "pretest:unit": "dotenvx run -f .test.env",
+    "pretest:integration": "dotenvx run -f .test.env",
+    "test": "pnpm run test:unit && pnpm run test:integration",
+    "test:unit": "jest --config jest.unit.config.ts",
+    "test:integration": "jest --detectOpenHandles --config jest.integration.config.ts",
+    "setup": "pnpm run setup:env && npm run setup:db",
+    "setup:env": "cp .example.env .env && cp .development.example.env .development.env && cp .test.example.env .test.env",
+    "setup:db": "pnpm run dotenvx:dev -- prisma migrate dev --name init --schema=./prisma/schema.prisma && pnpm run dotenvx:dev -- prisma db seed"
   }
 }
