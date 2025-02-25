@@ -1,0 +1,8 @@
+node_modules
+# Keep environment variables out of version control
+*.env
+!*.example.env
+
+# Keep development database out of version control
+*.db
+*.db-journal

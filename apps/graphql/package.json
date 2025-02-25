@@ -4,26 +4,50 @@
   "description": "A simple GraphQL server using graphql-yoga",
   "private": true,
   "dependencies": {
+    "@dotenvx/dotenvx": "^1.36.0",
+    "@graphql-tools/executor-http": "^1.2.5",
+    "@graphql-typed-document-node/core": "^3.2.0",
     "@repo/shared-config": "workspace:*",
     "graphql": "^16.8.1",
     "graphql-scalars": "^1.23.0",
-    "graphql-yoga": "^5.3.1"
+    "graphql-yoga": "^5.3.1",
+    "node-emoji": "^2.2.0",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7",
+    "uuid": "^11.0.5"
   },
   "devDependencies": {
     "@eddeee888/gcg-typescript-resolver-files": "^0.9.2",
     "@graphql-codegen/cli": "^5.0.2",
     "@parcel/watcher": "^2.4.1",
+    "@prisma/client": "^6.3.1",
     "@repo/typescript-config": "workspace:*",
+    "@types/jest": "^29.5.14",
     "@types/node": "^20.11.24",
     "concurrently": "^8.2.2",
-    "cross-env": "^7.0.3",
-    "typescript": "^5.4.5"
+    "jest": "^29.7.0",
+    "prisma": "^6.3.1",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.7.3"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   },
   "scripts": {
+    "dotenvx": "dotenvx",
+    "dotenvx:dev": "dotenvx run -f .development.env",
     "codegen": "graphql-codegen",
     "codegen:watch": "graphql-codegen --watch",
-    "dev": "cross-env NODE_ENV=development & concurrently \"npm run codegen:watch\" \"npx ts-node-dev --exit-child --respawn server.ts\"",
+    "dev": "dotenvx run -f .development.env -- concurrently \"npm run codegen:watch\" \"npx ts-node-dev --exit-child --respawn server.ts\"",
     "prestart": "npm run codegen",
-    "start": "npx ts-node server.ts"
+    "start": "npx ts-node server.ts",
+    "pretest:unit": "dotenvx run -f .test.env",
+    "pretest:integration": "dotenvx run -f .test.env",
+    "test": "pnpm run test:unit && pnpm run test:integration",
+    "test:unit": "jest --config jest.unit.config.ts",
+    "test:integration": "jest --detectOpenHandles --config jest.integration.config.ts",
+    "setup": "pnpm run setup:env && npm run setup:db",
+    "setup:env": "cp .example.env .env && cp .development.example.env .development.env && cp .test.example.env .test.env",
+    "setup:db": "pnpm run dotenvx:dev -- prisma migrate dev --name init --schema=./prisma/schema.prisma && pnpm run dotenvx:dev -- prisma db seed"
   }
 }

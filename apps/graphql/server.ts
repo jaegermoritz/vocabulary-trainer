@@ -1,24 +1,53 @@
-import { createYoga, createSchema } from "graphql-yoga";
+import "@dotenvx/dotenvx";
 import { createServer } from "http";
-import { typeDefs } from "./schema/typeDefs.generated";
-import { resolvers } from "./schema/resolvers.generated";
-import { graphqlConfig } from "@repo/shared-config";
+import { yoga } from "./yoga";
+import { prisma } from "./context";
+import { emojify } from "node-emoji";
 
-const yoga = createYoga({
-  graphiql: {
-    defaultQuery: /* GraphQL */ `
-      query GET_USER {
-        user(id: "001") {
-          id
-          fullName
-          isAdmin
-        }
-      }
-    `,
-  },
-  schema: createSchema({ typeDefs, resolvers }),
-});
 const server = createServer(yoga);
-server.listen(graphqlConfig.port, () => {
-  console.log(`Server is running on ${graphqlConfig.url}`);
-});
+
+export async function startServer() {
+  console.log(emojify(`:rocket: Starting server...\n`));
+  await prisma.$connect();
+  console.log(emojify(`:link: Connected to database.\n`));
+  const port = process.env.GRAPHQL_SERVER_PORT;
+  if (!port) {
+    throw new Error("GRAPHQL_SERVER_PORT is not defined in the environment");
+  }
+  return new Promise<void>((resolve) => {
+    server.listen(port, () => {
+      console.log(
+        emojify(
+          `:globe_with_meridians: Server is running on http://localhost:${port}/graphql \n`
+        )
+      );
+      resolve();
+    });
+  });
+}
+
+export async function stopServer() {
+  console.log(emojify(`:stop_sign: Stopping server...\n`));
+  await prisma.$disconnect();
+  console.log(emojify(`:electric_plug: Disconnected from database\n`));
+  return new Promise<void>((resolve, reject) => {
+    server.close((err) => {
+      if (err) {
+        console.error(emojify(`:x: Error stopping server\n`), err);
+        reject(err);
+      } else {
+        console.log(
+          emojify(`:white_check_mark: Server stopped successfully\n`)
+        );
+        resolve();
+      }
+    });
+  });
+}
+
+if (process.env.NODE_ENV === "development") {
+  startServer().catch((error) => {
+    console.error(emojify(`:x: Failed to start server:\n`), error);
+    process.exit(1);
+  });
+}

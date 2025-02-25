@@ -1,0 +1,8 @@
+extend type Query {
+  hello: Hello
+}
+
+type Hello {
+  message: String!
+  info: String!
+}
