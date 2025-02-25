@@ -137,6 +137,22 @@ export type PostCommentMutation = {
   };
 };
 
+export type PostCommentMutationVariables = Exact<{
+  body: Scalars["String"]["input"];
+  linkId: Scalars["ID"]["input"];
+}>;
+
+export type PostCommentMutation = {
+  __typename?: "Mutation";
+  postCommentOnLink: {
+    __typename?: "Comment";
+    id: string;
+    createdAt: string;
+    body: string;
+    link: { __typename?: "Link"; id: string };
+  };
+};
+
 export type PostLinkMutationVariables = Exact<{
   description: Scalars["String"]["input"];
   url: Scalars["String"]["input"];
