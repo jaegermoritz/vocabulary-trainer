@@ -1,27 +1,7 @@
-import { ExecutionResult, parse } from "graphql";
 import { TypedDocumentNode } from "@graphql-typed-document-node/core";
+import { parse } from "graphql";
 import { prisma } from "../../context";
-
-async function executeOperation<TResult, TVariables>(
-  operation: TypedDocumentNode<TResult, TVariables>,
-  variables: TVariables
-): Promise<ExecutionResult<TResult>> {
-  const response = await fetch(
-    `http://localhost:${process.env.GRAPHQL_SERVER_PORT}/graphql`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        query: operation.loc?.source.body,
-        variables,
-      }),
-    }
-  );
-  return response.json();
-}
+import { executeOperation } from "../helpers/executeOperation";
 
 interface PostLinkResult {
   postLink: {
@@ -31,43 +11,54 @@ interface PostLinkResult {
   };
 }
 
+const postLinkMutation = parse(/* GraphQL */ `
+  mutation PostLink($description: String!, $url: String!) {
+    postLink(description: $description, url: $url) {
+      id
+      description
+      url
+    }
+  }
+`) as TypedDocumentNode<PostLinkResult, { description: string; url: string }>;
+
+async function createLink(
+  description: string,
+  url: string
+): Promise<PostLinkResult> {
+  const result = await executeOperation(postLinkMutation, {
+    description,
+    url,
+  });
+
+  if (result.errors) {
+    throw new Error(
+      `Failed to create link: ${result.errors.map((e) => e.message).join(", ")}`
+    );
+  }
+
+  return result.data!;
+}
+
 describe("postLink integration tests", () => {
   it("should create a new link", async () => {
-    const mutation = parse(/* GraphQL */ `
-      mutation PostLink($description: String!, $url: String!) {
-        postLink(description: $description, url: $url) {
-          id
-          description
-          url
-        }
-      }
-    `) as TypedDocumentNode<
-      PostLinkResult,
-      { description: string; url: string }
-    >;
-
     const currentDatetime = new Date().toISOString();
     const description = `A new link - ${currentDatetime}`;
+    const url = "http://example.com";
 
-    const variables = {
-      description,
-      url: "http://example.com",
-    };
+    const result = await createLink(description, url);
 
-    const result = await executeOperation(mutation, variables);
-
-    expect(result.data?.postLink).toMatchObject({
-      description: variables.description,
-      url: variables.url,
+    expect(result.postLink).toMatchObject({
+      description: description,
+      url: url,
     });
 
     const linkInDb = await prisma.link.findUnique({
-      where: { id: parseInt(result.data?.postLink.id.toString() || "") },
+      where: { id: parseInt(result.postLink.id.toString() || "") },
     });
 
     expect(linkInDb).toMatchObject({
-      description: variables.description,
-      url: variables.url,
+      description: description,
+      url: url,
     });
   });
 });
