@@ -4,5 +4,5 @@ export const hello: NonNullable<QueryResolvers['hello']> = async (
   _arg,
   _ctx
 ) => {
-  return { message: "Hello FOO!" };
+  return { message: "Hello FOO!", info: "This is a hello message" };
 };
