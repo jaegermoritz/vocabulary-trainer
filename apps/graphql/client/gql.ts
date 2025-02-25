@@ -14,18 +14,18 @@ import * as types from './graphql';
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n      mutation PostLink($description: String!, $url: String!) {\n        postLink(description: $description, url: $url) {\n          id\n          description\n          url\n        }\n      }\n    ": types.PostLinkDocument,
-    "\n        query MyQuery {\n          hello {\n            message\n          }\n        }\n      ": types.MyQueryDocument,
+    "\n  mutation PostComment($body: String!, $linkId: ID!) {\n    postCommentOnLink(body: $body, linkId: $linkId) {\n      id\n      createdAt\n      body\n      link {\n        id\n      }\n    }\n  }\n": types.PostCommentDocument,
+    "\n  mutation PostLink($description: String!, $url: String!) {\n    postLink(description: $description, url: $url) {\n      id\n      description\n      url\n    }\n  }\n": types.PostLinkDocument,
 };
 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n      mutation PostLink($description: String!, $url: String!) {\n        postLink(description: $description, url: $url) {\n          id\n          description\n          url\n        }\n      }\n    "): typeof import('./graphql').PostLinkDocument;
+export function graphql(source: "\n  mutation PostComment($body: String!, $linkId: ID!) {\n    postCommentOnLink(body: $body, linkId: $linkId) {\n      id\n      createdAt\n      body\n      link {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').PostCommentDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n        query MyQuery {\n          hello {\n            message\n          }\n        }\n      "): typeof import('./graphql').MyQueryDocument;
+export function graphql(source: "\n  mutation PostLink($description: String!, $url: String!) {\n    postLink(description: $description, url: $url) {\n      id\n      description\n      url\n    }\n  }\n"): typeof import('./graphql').PostLinkDocument;
 
 
 export function graphql(source: string) {

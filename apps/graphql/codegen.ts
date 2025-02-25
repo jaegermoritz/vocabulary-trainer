@@ -15,6 +15,7 @@ const config: CodegenConfig = {
       resolverGeneration: "minimal",
       typesPluginsConfig: {
         contextType: "../context#GraphQLContext",
+        makeResolverTypeCallable: true,
       },
     }),
   },
