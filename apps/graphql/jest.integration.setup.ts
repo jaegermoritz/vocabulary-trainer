@@ -5,7 +5,7 @@ import path from "path";
 import { emojify } from "node-emoji";
 import { seedDatabase } from "./prisma/seed";
 
-const testDbPath = path.resolve(__dirname, "test.db");
+const testDbPath = path.resolve(__dirname, "prisma", "test.db");
 
 module.exports = async () => {
   try {
