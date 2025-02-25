@@ -1,67 +1,61 @@
-import { ExecutionResult, parse } from "graphql";
 import { TypedDocumentNode } from "@graphql-typed-document-node/core";
+import { parse } from "graphql";
+import { executeOperation } from "../helpers/executeOperation";
 import { prisma } from "../../context";
 
-async function executeOperation<TResult, TVariables>(
-  operation: TypedDocumentNode<TResult, TVariables>,
-  variables: TVariables
-): Promise<ExecutionResult<TResult>> {
-  const response = await fetch(
-    `http://localhost:${process.env.GRAPHQL_SERVER_PORT}/graphql`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        query: operation.loc?.source.body,
-        variables,
-      }),
-    }
-  );
-  return response.json();
-}
-
-interface PostLinkResult {
-  postLink: {
-    id: string;
-    description: string;
-    url: string;
+interface PostCommentOnLinkResult {
+  postCommentOnLink: {
+    body: string;
+    id: number;
+    createdAt: Date;
+    linkId: number;
   };
 }
 
-describe("PostComment integration tests", () => {
+const postCommentOnLinkMutation = parse(/* GraphQL */ `
+  mutation PostComment($body: String!, $linkId: ID!) {
+    postCommentOnLink(body: $body, linkId: $linkId) {
+      id
+      createdAt
+      body
+      link {
+        id
+      }
+    }
+  }
+`) as TypedDocumentNode<
+  PostCommentOnLinkResult,
+  { body: string; linkId: string }
+>;
+
+async function createComment(variables: { body: string; linkId: string }) {
+  return await executeOperation(postCommentOnLinkMutation, {
+    body: variables.body,
+    linkId: variables.linkId,
+  });
+}
+
+describe("PostCommentOnLink integration tests", () => {
   it("should create a new comment", async () => {
-    // const mutation = parse(/* GraphQL */ `
-    //   mutation PostComment($body: String!, $linkId: String!) {
-    //     postLink(description: $description, url: $url) {
-    //       id
-    //       description
-    //       url
-    //     }
-    //   }
-    // `) as TypedDocumentNode<
-    //   PostLinkResult,
-    //   { description: string; url: string }
-    // >;
-    // const currentDatetime = new Date().toISOString();
-    // const description = `A new link - ${currentDatetime}`;
-    // const variables = {
-    //   description,
-    //   url: "http://example.com",
-    // };
-    // const result = await executeOperation(mutation, variables);
-    // expect(result.data?.postLink).toMatchObject({
-    //   description: variables.description,
-    //   url: variables.url,
-    // });
-    // const linkInDb = await prisma.link.findUnique({
-    //   where: { id: parseInt(result.data?.postLink.id.toString() || "") },
-    // });
-    // expect(linkInDb).toMatchObject({
-    //   description: variables.description,
-    //   url: variables.url,
-    // });
+    const currentDatetime = new Date().toISOString();
+    const body = `A new comment - ${currentDatetime}`;
+    const linkId = "1";
+    const result = await createComment({ body, linkId });
+
+    expect(result.errors).toBeUndefined();
+    expect(result.data!.postCommentOnLink).toMatchObject({
+      body,
+      createdAt: expect.any(String),
+      id: expect.any(String),
+      link: { id: "1" },
+    });
+
+    const commentInDb = await prisma.comment.findUnique({
+      where: { id: parseInt(result.data!.postCommentOnLink.id.toString()) },
+    });
+    expect(commentInDb).toMatchObject({
+      body,
+      linkId: 1,
+    });
   });
 });
