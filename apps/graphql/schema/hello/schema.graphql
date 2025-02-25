@@ -4,4 +4,5 @@ extend type Query {
 
 type Hello {
   message: String!
+  info: String!
 }
