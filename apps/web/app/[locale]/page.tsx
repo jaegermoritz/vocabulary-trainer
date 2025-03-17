@@ -1,6 +1,8 @@
 import { gql } from '@apollo/client'
 import { getClient } from '@/apollo-client/ApolloClient'
 import { getTranslations } from 'next-intl/server'
+import { auth } from '@/auth'
+import Link from 'next/link'
 
 const query = gql`
   query GET_USER {
@@ -13,16 +15,18 @@ const query = gql`
 `
 
 export default async function Homepage() {
-  const t = await getTranslations('Homepage')
+  const session = await auth()
+  const t = await getTranslations()
 
-  const { data, error } = await getClient().query({ query })
+  // const { data, error } = await getClient().query({ query })
 
-  if (error) return <p>Error : {error.message}</p>
+  // if (error) return <p>Error : {error.message}</p>
 
   return (
     <div>
-      <h1>{t('title')}</h1>
-      {data.user.fullName}
+      <h1>{t('Homepage.title')}</h1>
+      {/* {data.user.fullName} */}
+      <Link href="/de/profile">{t('Profile.title')}</Link>
     </div>
   )
 }
