@@ -6,6 +6,7 @@ export const UserButton = async () => {
   if (!session?.user) return <SignIn />
   return (
     <div className="flex items-center gap-2">
+      <pre>{JSON.stringify(session)}</pre>
       <span className="hidden text-sm sm:inline-flex">{session.user.email}</span>
       <span className="hidden text-sm sm:inline-flex">{session.user.name}</span>
 

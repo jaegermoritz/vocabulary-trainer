@@ -4,5 +4,10 @@
       "mode": "auto"
     }
   ],
-  "conventionalCommits.scopes": ["graphql-server", "deps", "database"]
+  "conventionalCommits.scopes": [
+    "graphql-server",
+    "deps",
+    "database",
+    "web-app"
+  ]
 }

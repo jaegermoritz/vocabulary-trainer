@@ -1,0 +1,14 @@
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Ignore specific environment files
+.test.env
+.dev.env
+
+# Do not ignore example environment files
+!.example.test.env
+!.example.dev.env
