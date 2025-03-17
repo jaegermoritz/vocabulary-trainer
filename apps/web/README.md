@@ -1,28 +1,61 @@
 ## Getting Started
 
-First, run the development server:
+## Tests
+
+This project uses Jest for unit and integration testing, and Playwright for end-to-end (E2E) testing. Below is a brief overview of the testing setup and how to run the tests.
+
+### Test Locations
+
+- `tests/unit`: Unit and Integration Tests are located here.
+- `tests/e2e`: End to End tests are located here.
+
+### Running Tests
+
+To run the tests, ensure that the environment variables are correctly set and then execute the test scripts:
 
 ```bash
-yarn dev
+# Run unit tests
+npm run test:unit
+
+# Run e2e tests
+npm run test:e2e
+
+# Run all tests
+npm run test
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Configuration
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Jest Configuration**: Jest configuration files (`jest.config.ts` and `jest.setup.ts`) are located in the root directory of the app .
+- **Playwright Configuration**: Playwright configuration is located in the `playwright.config.ts` file in the web directory.
 
-To create [API routes](https://nextjs.org/docs/app/building-your-application/routing/router-handlers) add an `api/` directory to the `app/` directory with a `route.ts` file. For individual endpoints, create a subfolder in the `api` directory, like `api/hello/route.ts` would map to [http://localhost:3000/api/hello](http://localhost:3000/api/hello).
+### Official Documentation
 
-## Learn More
+- **Jest**: For more information on how to [configure](https://jestjs.io/docs/configuration) and [use](https://nextjs.org/docs/app/building-your-application/testing/jest) Jest with NextJS, refer to the documentation.
+- **Playwright**: For more information on how to [configure](https://playwright.dev/docs/test-configuration) and [use](https://playwright.dev/docs/writing-tests) Playwright, refer to the Playwright documentation.
 
-To learn more about Next.js, take a look at the following resources:
+## Authentication Providers
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn/foundations/about-nextjs) - an interactive Next.js tutorial.
+This application uses secure authentication providers for user authentication. The primary provider used is GitHub. However, for testing purposes, a password credentials provider is also included. This is only enabled in development and test environments to facilitate automated testing, such as end-to-end (E2E) tests with Playwright.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Secure Providers
 
-## Deploy on Vercel
+The application uses the following secure provider for authentication:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_source=github.com&utm_medium=referral&utm_campaign=turborepo-readme) from the creators of Next.js.
+- GitHub: Users can authenticate using their GitHub accounts.
+- Password Credentials Provider (For Testing Only)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+:warning: _In development and test environments, the application includes a password credentials provider. This is intended solely for automated testing and should not be used in production._
+
+### Configuration
+
+The password credentials provider is configured to be used only when the NODE_ENV environment variable is set to development or test. The password for the test user is specified in the environment variable TEST_PASSWORD.
+
+### Example Configuration
+
+`.env`:
+
+```
+NODE_ENV=development
+TEST_PASSWORD=your_test_password
+```
