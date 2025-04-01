@@ -35,5 +35,8 @@ jobs:
 
       - name: Create Release Pull Request
         uses: changesets/action@v1
+        with:
+          commit: "chore: :bookmark: update versions and changelog"
+          title: "chore: :bookmark: version bump and changelog update"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
