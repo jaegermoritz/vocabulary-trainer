@@ -41,12 +41,14 @@
     "@commitlint/config-conventional": "^19.2.2",
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/named-operations-object": "^3.0.0",
+    "@jest/types": "^29.6.3",
     "@next/eslint-plugin-next": "^14.1.1",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^15.0.7",
     "@types/eslint": "^8.56.5",
+    "@types/jest": "^29.5.14",
     "@types/node": "^20.11.24",
     "@types/react": "^18.2.61",
     "@types/react-dom": "^18.2.19",
@@ -60,7 +62,8 @@
     "prettier": "^3.2.5",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "whatwg-fetch": "^3.6.20"
   },
   "engines": {
     "node": ">=20"

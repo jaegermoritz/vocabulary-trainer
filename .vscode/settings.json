@@ -8,6 +8,7 @@
     "graphql-server",
     "deps",
     "database",
-    "release"
+    "release",
+    "web-app"
   ]
 }
