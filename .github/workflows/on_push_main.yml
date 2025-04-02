@@ -9,26 +9,29 @@ permissions:
   contents: write
 
 jobs:
-  release_and_deploy:
-    name: 🔖 Release and Deploy
+  release:
+    name: Release
     runs-on: ubuntu-latest
     steps:
-      - name: Setup
-        uses: ./.github/workflows/setup.yml
-        with:
-          node_version: "20" # Specify the Node.js version to use
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Release
-        uses: ./.github/workflows/release.yml
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
         with:
-          node_version: "20" # Specify the Node.js version to use
-          build_directory: ./dist # Adjust this to your build output directory
+          run_install: false
 
-      - name: 🚀 Deploy Web Application
-        uses: ./.github/workflows/deploy.yml
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          build_directory: ./dist # Adjust this to your build output directory
-          remote_server: "MY_SERVER_HOST_NAME" # Replace with your server's IP or hostname
-          remote_path: /var/www/my-webapp # Adjust this to your server's deployment path
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Create Release Pull Request
+        id: changesets
+        uses: changesets/action@v1
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }} # Pass the secret explicitly
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

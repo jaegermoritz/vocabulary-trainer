@@ -11,9 +11,6 @@ on:
         description: The directory containing the build files to deploy.
         required: true
         type: string
-    secrets:
-      GITHUB_TOKEN:
-        required: true
 
 jobs:
   release:

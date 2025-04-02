@@ -48,11 +48,3 @@ jobs:
         with:
           header: pr-title-lint-error
           delete: true
-
-  generate-changesets:
-    name: 📝 Generate Changesets
-    needs: validate-pr-or-commits
-    uses: ./.github/workflows/generate_changesets.yml
-    with:
-      node_version: "20"
-      pull_request_ref: ${{ github.event.pull_request.head.ref }}
