@@ -1,0 +1,19 @@
+name: Feature Branch Push Workflow
+
+on:
+  push:
+    branches-ignore:
+      - "main"
+
+permissions:
+  contents: read
+
+jobs:
+  conventional-commits-validation:
+    name: ✅ Validate Conventional Commits
+    uses: ./.github/workflows/conventional_commits_validation.yml
+    with:
+      node_version: "20" # Specify the Node.js version to use
+      branch: ${{ github.ref_name }} # Pass the branch name to the reusable workflow
+    secrets:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

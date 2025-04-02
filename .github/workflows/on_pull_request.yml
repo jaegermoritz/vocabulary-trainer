@@ -1,0 +1,34 @@
+name: Pull Request Workflow
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+    branches:
+      - main # Only trigger this workflow for pull requests targeting the main branch
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  conventional-commits-validation:
+    name: ✅ Validate Conventional Commits
+    uses: ./.github/workflows/conventional_commits_validation.yml
+    with:
+      node_version: "20"
+      branch: ${{ github.event.pull_request.head.ref }}
+    secrets:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  generate-changesets:
+    name: 📝 Generate Changesets
+    needs: conventional-commits-validation
+    uses: ./.github/workflows/generate_changesets.yml
+    with:
+      node_version: "20"
+      pull_request_ref: ${{ github.event.pull_request.head.ref }}
+    secrets:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

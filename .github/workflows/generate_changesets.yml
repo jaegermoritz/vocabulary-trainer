@@ -1,0 +1,41 @@
+name: 📝 Generate Changesets
+
+on:
+  workflow_call:
+    inputs:
+      pull_request_ref:
+        description: The branch ref for the pull request (e.g., `github.event.pull_request.head.ref`).
+        required: true
+        type: string
+      node_version:
+        description: The Node.js version to use.
+        required: true
+        type: string
+    secrets:
+      GITHUB_TOKEN:
+        required: true
+
+jobs:
+  generate-changesets:
+    name: 📝 Generate Changesets
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛠️ Setup Environment
+        uses: ./.github/workflows/setup.yml
+        with:
+          node_version: ${{ inputs.node_version }}
+      - name: Parse Conventional Commits
+        run: |
+          echo "🔍 Analyze Commits..."
+          npx --no-install semantic-release-commit-analyzer
+          echo "Creating Changesets based on commit types..."
+          pnpm changeset --yes
+
+      - name: Commit Changeset Files
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add .changeset/
+          git commit -m "chore: auto-generated changesets based on commits"
+          git push origin ${{ inputs.pull_request_ref }}

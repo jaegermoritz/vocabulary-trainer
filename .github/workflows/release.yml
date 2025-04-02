@@ -1,41 +1,58 @@
-name: 🔖 Release
+name: Deploy Web Application
 
 on:
-  push:
-    branches:
-      - main
-
-concurrency: ${{ github.workflow }}-${{ github.ref }}
+  workflow_call:
+    inputs:
+      node_version:
+        description: The Node.js version to use for the workflow.
+        required: true
+        type: string
+      build_directory:
+        description: The directory containing the build files to deploy.
+        required: true
+        type: string
+    secrets:
+      GITHUB_TOKEN:
+        required: true
 
 jobs:
   release:
-    name: 🔖 Release
+    name: 🔖 Create Release
+
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
-
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
+      - name: Setup
+        uses: ./.github/workflows/setup.yml
         with:
-          run_install: false
+          node_version: ${{ inputs.node_version }} # Use the Node.js version passed from the calling workflow
+      - name: Apply Changesets
+        run: pnpm changeset version
 
-      - name: Install Node.js
-        uses: actions/setup-node@v4
+      - name: Build Application
+        run: pnpm build
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
         with:
-          node-version: 20
-          cache: "pnpm"
+          name: build-artifacts
+          path: ${{ inputs.build_directory }} # Use the build directory passed from the calling workflow
 
-      - name: Install dependencies
-        run: pnpm install
+      - name: Commit Version Bumps
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "chore: apply version bumps"
+          git push origin main
 
-      - name: Validate Turborepo Build
-        run: pnpm turbo run build
+      - name: Push Tags
+        run: git push --tags
 
-      - name: Create Release Pull Request
-        uses: changesets/action@v1
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          commit: "chore: :bookmark: update versions and changelog"
-          title: "chore: :bookmark: version bump and changelog update"
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          body_path: ./CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

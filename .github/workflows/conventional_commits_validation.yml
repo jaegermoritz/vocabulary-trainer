@@ -1,18 +1,21 @@
-name: "🚨 Lint PR"
+name: 🚨 Conventional Commits Validation
 
 on:
-  pull_request_target:
-    types:
-      - opened
-      - edited
-      - synchronize
-
-permissions:
-  pull-requests: write
+  workflow_call:
+    inputs:
+      branch:
+        required: true
+        type: string
+      node_version:
+        required: true
+        type: string
+    secrets:
+      GITHUB_TOKEN:
+        required: true
 
 jobs:
-  main:
-    name: 🦺 Validate PR title
+  validate-pr-or-commits:
+    name: 🦺 Validate PR Title or Commit Messages
     runs-on: ubuntu-latest
     permissions:
       pull-requests: read
