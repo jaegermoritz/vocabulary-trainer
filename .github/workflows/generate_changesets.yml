@@ -17,6 +17,9 @@ jobs:
     name: 📝 Generate Changesets
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: 🛠️ Setup Environment
         uses: ./.github/workflows/setup.yml
         with:
