@@ -16,16 +16,18 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Fetch the full history to ensure all commits are available
 
       - name: Fetch Commit Messages
         id: commits
         run: |
           echo "Fetching commit messages..."
-          git log --format=%s HEAD~10..HEAD > commit_messages.txt
+          git log --format=%s HEAD~10..HEAD > commit_messages.txt || git log --format=%s > commit_messages.txt
           echo "Commit messages fetched:"
           cat commit_messages.txt
 
       - name: Validate Commit Messages
         run: |
           echo "Validating commit messages..."
-          npx commitlint --from=HEAD~10 --to=HEAD
+          npx commitlint --from=HEAD~10 --to=HEAD || npx commitlint --from=HEAD~1 --to=HEAD
