@@ -9,37 +9,23 @@ permissions:
   contents: read
 
 jobs:
-  validate-pr-or-commits:
-    name: 🦺 Validate PR Title or Commit Messages
+  validate-commit-messages:
+    name: 🦺 Validate Commit Messages
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: read
+    if: ${{ github.event_name != 'pull_request' }} # Ensure this workflow does not run for open PRs
     steps:
-      - uses: amannn/action-semantic-pull-request@v5
-        id: lint_pr_title
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      - uses: marocchino/sticky-pull-request-comment@v2
-        # When the previous steps fails, the workflow would stop. By adding this
-        # condition you can continue the execution with the populated error message.
-        if: always() && (steps.lint_pr_title.outputs.error_message != null)
-        with:
-          header: pr-title-lint-error
-          message: |
-            Hey there and thank you for opening this pull request! 👋🏼
+      - name: Fetch Commit Messages
+        id: commits
+        run: |
+          echo "Fetching commit messages..."
+          git log --format=%s HEAD~10..HEAD > commit_messages.txt
+          echo "Commit messages fetched:"
+          cat commit_messages.txt
 
-            We require pull request titles to follow the [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/) and it looks like your proposed title needs to be adjusted.
-
-            Details:
-
-            ```
-            ${{ steps.lint_pr_title.outputs.error_message }}
-            ```
-
-      # Delete a previous comment when the issue has been resolved
-      - if: ${{ steps.lint_pr_title.outputs.error_message == null }}
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          header: pr-title-lint-error
-          delete: true
+      - name: Validate Commit Messages
+        run: |
+          echo "Validating commit messages..."
+          npx commitlint --from=HEAD~10 --to=HEAD
