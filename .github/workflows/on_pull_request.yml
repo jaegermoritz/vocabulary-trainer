@@ -1,18 +1,21 @@
-name: "🚨 Lint PR"
+name: Pull Request Workflow
 
 on:
-  pull_request_target:
+  pull_request:
     types:
       - opened
-      - edited
       - synchronize
+      - reopened
+    branches:
+      - main # Only trigger this workflow for pull requests targeting the main branch
 
 permissions:
   pull-requests: write
+  contents: read
 
 jobs:
-  main:
-    name: 🦺 Validate PR title
+  validate-pr-or-commits:
+    name: 🦺 Validate PR Title or Commit Messages
     runs-on: ubuntu-latest
     permissions:
       pull-requests: read
