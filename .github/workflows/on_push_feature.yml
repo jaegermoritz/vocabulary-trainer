@@ -12,12 +12,26 @@ jobs:
   validate-commit-messages:
     name: 🦺 Validate Commit Messages
     runs-on: ubuntu-latest
-    if: ${{ github.event_name != 'pull_request' }} # Ensure this workflow does not run for open PRs
+    if: ${{ github.event_name != 'pull_request' }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 0 # Fetch the full history to ensure all commits are available
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Fetch Commit Messages
         id: commits
