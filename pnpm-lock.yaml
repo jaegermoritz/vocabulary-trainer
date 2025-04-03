@@ -43,7 +43,7 @@ importers:
         version: link:../../packages/ui
       next:
         specifier: ^14.2.26
-        version: 14.2.26(@babel/core@7.24.7)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        version: 14.2.26(@babel/core@7.24.7)(@playwright/test@1.51.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -159,7 +159,10 @@ importers:
         version: 3.10.4(@types/react@18.2.61)(graphql-ws@5.16.0(graphql@16.8.1))(graphql@16.8.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@apollo/experimental-nextjs-app-support':
         specifier: ^0.11.0
-        version: 0.11.0(@apollo/client@3.10.4(@types/react@18.2.61)(graphql-ws@5.16.0(graphql@16.8.1))(graphql@16.8.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(next@14.2.26(@babel/core@7.24.7)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0)
+        version: 0.11.0(@apollo/client@3.10.4(@types/react@18.2.61)(graphql-ws@5.16.0(graphql@16.8.1))(graphql@16.8.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(next@14.2.26(@babel/core@7.24.7)(@playwright/test@1.51.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0)
+      '@dotenvx/dotenvx':
+        specifier: ^1.36.0
+        version: 1.39.0
       '@repo/shared-config':
         specifier: workspace:*
         version: link:../../packages/shared-config
@@ -174,13 +177,13 @@ importers:
         version: 16.8.1
       next:
         specifier: ^14.2.26
-        version: 14.2.26(@babel/core@7.24.7)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        version: 14.2.26(@babel/core@7.24.7)(@playwright/test@1.51.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       next-auth:
         specifier: 5.0.0-beta.25
-        version: 5.0.0-beta.25(next@14.2.26(@babel/core@7.24.7)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0)
+        version: 5.0.0-beta.25(next@14.2.26(@babel/core@7.24.7)(@playwright/test@1.51.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0)
       next-intl:
         specifier: 3.14.1
-        version: 3.14.1(next@14.2.26(@babel/core@7.24.7)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0)
+        version: 3.14.1(next@14.2.26(@babel/core@7.24.7)(@playwright/test@1.51.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -206,6 +209,9 @@ importers:
       '@next/eslint-plugin-next':
         specifier: ^14.1.1
         version: 14.1.1
+      '@playwright/test':
+        specifier: ^1.51.0
+        version: 1.51.0
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
@@ -1798,6 +1804,11 @@ packages:
   '@pkgr/utils@2.4.2':
     resolution: {integrity: sha512-POgTXhjrTfbTV63DiFXav4lBHiICLKKwDeaKn9Nphwj7WH6m0hMMCaJkMyRWjgtPFyRKRVoMXXjczsTQRDEhYw==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
+
+  '@playwright/test@1.51.0':
+    resolution: {integrity: sha512-dJ0dMbZeHhI+wb77+ljx/FeC8VBP6j/rj9OAojO08JI80wTZy6vRk9KvHKiDCUh4iMpEiseMgqRBIeW+eKX6RA==}
+    engines: {node: '>=18'}
+    hasBin: true
 
   '@prisma/client@6.5.0':
     resolution: {integrity: sha512-M6w1Ql/BeiGoZmhMdAZUXHu5sz5HubyVcKukbLs3l0ELcQb8hTUJxtGEChhv4SVJ0QJlwtLnwOLgIRQhpsm9dw==}
@@ -3499,6 +3510,11 @@ packages:
   fs.realpath@1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
 
+  fsevents@2.3.2:
+    resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
+    engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
+    os: [darwin]
+
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
@@ -5021,6 +5037,16 @@ packages:
     resolution: {integrity: sha512-HRDzbaKjC+AOWVXxAU/x54COGeIv9eb+6CkDSQoNTt4XyWoIJvuPsXizxu/Fr23EiekbtZwmh1IcIG/l/a10GQ==}
     engines: {node: '>=8'}
 
+  playwright-core@1.51.0:
+    resolution: {integrity: sha512-x47yPE3Zwhlil7wlNU/iktF7t2r/URR3VLbH6EknJd/04Qc/PSJ0EY3CMXipmglLG+zyRxW6HNo2EGbKLHPWMg==}
+    engines: {node: '>=18'}
+    hasBin: true
+
+  playwright@1.51.0:
+    resolution: {integrity: sha512-442pTfGM0xxfCYxuBa/Pu6B2OqxqqaYq39JS8QDMGThUvIOCd6s0ANDog3uwA0cHavVlnTQzGCN7Id2YekDSXA==}
+    engines: {node: '>=18'}
+    hasBin: true
+
   pluralize@8.0.0:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
     engines: {node: '>=4'}
@@ -6253,11 +6279,11 @@ snapshots:
     transitivePeerDependencies:
       - '@types/react'
 
-  '@apollo/experimental-nextjs-app-support@0.11.0(@apollo/client@3.10.4(@types/react@18.2.61)(graphql-ws@5.16.0(graphql@16.8.1))(graphql@16.8.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(next@14.2.26(@babel/core@7.24.7)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0)':
+  '@apollo/experimental-nextjs-app-support@0.11.0(@apollo/client@3.10.4(@types/react@18.2.61)(graphql-ws@5.16.0(graphql@16.8.1))(graphql@16.8.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(next@14.2.26(@babel/core@7.24.7)(@playwright/test@1.51.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0)':
     dependencies:
       '@apollo/client': 3.10.4(@types/react@18.2.61)(graphql-ws@5.16.0(graphql@16.8.1))(graphql@16.8.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@apollo/client-react-streaming': 0.11.0(@apollo/client@3.10.4(@types/react@18.2.61)(graphql-ws@5.16.0(graphql@16.8.1))(graphql@16.8.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0)
-      next: 14.2.26(@babel/core@7.24.7)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      next: 14.2.26(@babel/core@7.24.7)(@playwright/test@1.51.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       react: 18.2.0
 
   '@ardatan/relay-compiler@12.0.0(encoding@0.1.13)(graphql@16.8.1)':
@@ -8320,6 +8346,10 @@ snapshots:
       picocolors: 1.1.1
       tslib: 2.8.1
 
+  '@playwright/test@1.51.0':
+    dependencies:
+      playwright: 1.51.0
+
   '@prisma/client@6.5.0(prisma@6.5.0(typescript@5.8.2))(typescript@5.8.2)':
     optionalDependencies:
       prisma: 6.5.0(typescript@5.8.2)
@@ -10047,7 +10077,7 @@ snapshots:
       eslint: 8.57.0
       eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 3.6.1(@typescript-eslint/parser@7.1.0(eslint@8.57.0)(typescript@5.4.5))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.0(eslint@8.57.0))(eslint@8.57.0)
-      eslint-plugin-import: 2.29.0(@typescript-eslint/parser@7.1.0(eslint@8.57.0)(typescript@5.4.5))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
+      eslint-plugin-import: 2.29.0(@typescript-eslint/parser@7.1.0(eslint@8.57.0)(typescript@5.4.5))(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@7.1.0(eslint@8.57.0)(typescript@5.4.5))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.0(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0)
       eslint-plugin-jsx-a11y: 6.8.0(eslint@8.57.0)
       eslint-plugin-react: 7.33.2(eslint@8.57.0)
       eslint-plugin-react-hooks: 4.6.0(eslint@8.57.0)
@@ -10101,7 +10131,7 @@ snapshots:
       enhanced-resolve: 5.15.0
       eslint: 8.57.0
       eslint-module-utils: 2.8.0(@typescript-eslint/parser@7.1.0(eslint@8.57.0)(typescript@5.4.5))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@7.1.0(eslint@8.57.0)(typescript@5.4.5))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.0(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0)
-      eslint-plugin-import: 2.29.0(@typescript-eslint/parser@7.1.0(eslint@8.57.0)(typescript@5.4.5))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
+      eslint-plugin-import: 2.29.0(@typescript-eslint/parser@7.1.0(eslint@8.57.0)(typescript@5.4.5))(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@7.1.0(eslint@8.57.0)(typescript@5.4.5))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.0(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0)
       fast-glob: 3.3.1
       get-tsconfig: 4.7.2
       is-core-module: 2.13.1
@@ -10177,7 +10207,7 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-plugin-import@2.29.0(@typescript-eslint/parser@7.1.0(eslint@8.57.0)(typescript@5.4.5))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0):
+  eslint-plugin-import@2.29.0(@typescript-eslint/parser@7.1.0(eslint@8.57.0)(typescript@5.4.5))(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@7.1.0(eslint@8.57.0)(typescript@5.4.5))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.0(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0):
     dependencies:
       array-includes: 3.1.7
       array.prototype.findlastindex: 1.2.3
@@ -10580,6 +10610,9 @@ snapshots:
       minipass: 3.3.6
 
   fs.realpath@1.0.0: {}
+
+  fsevents@2.3.2:
+    optional: true
 
   fsevents@2.3.3:
     optional: true
@@ -12073,21 +12106,21 @@ snapshots:
 
   netmask@2.0.2: {}
 
-  next-auth@5.0.0-beta.25(next@14.2.26(@babel/core@7.24.7)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0):
+  next-auth@5.0.0-beta.25(next@14.2.26(@babel/core@7.24.7)(@playwright/test@1.51.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0):
     dependencies:
       '@auth/core': 0.37.2
-      next: 14.2.26(@babel/core@7.24.7)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      next: 14.2.26(@babel/core@7.24.7)(@playwright/test@1.51.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       react: 18.2.0
 
-  next-intl@3.14.1(next@14.2.26(@babel/core@7.24.7)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0):
+  next-intl@3.14.1(next@14.2.26(@babel/core@7.24.7)(@playwright/test@1.51.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0):
     dependencies:
       '@formatjs/intl-localematcher': 0.2.32
       negotiator: 0.6.3
-      next: 14.2.26(@babel/core@7.24.7)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      next: 14.2.26(@babel/core@7.24.7)(@playwright/test@1.51.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       react: 18.2.0
       use-intl: 3.15.0(react@18.2.0)
 
-  next@14.2.26(@babel/core@7.24.7)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+  next@14.2.26(@babel/core@7.24.7)(@playwright/test@1.51.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@next/env': 14.2.26
       '@swc/helpers': 0.5.5
@@ -12108,6 +12141,7 @@ snapshots:
       '@next/swc-win32-arm64-msvc': 14.2.26
       '@next/swc-win32-ia32-msvc': 14.2.26
       '@next/swc-win32-x64-msvc': 14.2.26
+      '@playwright/test': 1.51.0
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
@@ -12478,6 +12512,14 @@ snapshots:
   pkg-dir@4.2.0:
     dependencies:
       find-up: 4.1.0
+
+  playwright-core@1.51.0: {}
+
+  playwright@1.51.0:
+    dependencies:
+      playwright-core: 1.51.0
+    optionalDependencies:
+      fsevents: 2.3.2
 
   pluralize@8.0.0: {}
 
