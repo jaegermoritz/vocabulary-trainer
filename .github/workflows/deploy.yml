@@ -1,0 +1,40 @@
+name: Deploy Web Application
+
+on:
+  workflow_call:
+    inputs:
+      build_directory:
+        description: The directory containing the build files to deploy.
+        required: true
+        type: string
+      remote_server:
+        description: The SSH address of the remote server (e.g., `user@host`).
+        required: true
+        type: string
+      remote_path:
+        description: The path on the remote server where files should be deployed.
+        required: true
+        type: string
+    secrets:
+      SSH_PRIVATE_KEY:
+        required: true
+
+jobs:
+  deploy:
+    name: 🚀 Deploy to Remote Server
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifacts
+
+      - name: Deploy using Rsync
+        uses: burnett01/rsync-deployments@6.0.0
+        with:
+          switches: -avrh --delete
+          path: src/
+          remote_path: /var/www/virtual/${{ vars.SSH_USERNAME }}/Applications/vocabulary.genius7.com
+          remote_host: ${{ vars.SSH_HOST }}
+          remote_user: ${{ vars.SSH_USERNAME }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}

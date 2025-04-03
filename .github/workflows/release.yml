@@ -1,0 +1,55 @@
+name: Deploy Web Application
+
+on:
+  workflow_call:
+    inputs:
+      node_version:
+        description: The Node.js version to use for the workflow.
+        required: true
+        type: string
+      build_directory:
+        description: The directory containing the build files to deploy.
+        required: true
+        type: string
+
+jobs:
+  release:
+    name: 🔖 Create Release
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup
+        uses: ./.github/workflows/setup.yml
+        with:
+          node_version: ${{ inputs.node_version }} # Use the Node.js version passed from the calling workflow
+      - name: Apply Changesets
+        run: pnpm changeset version
+
+      - name: Build Application
+        run: pnpm build
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: ${{ inputs.build_directory }} # Use the build directory passed from the calling workflow
+
+      - name: Commit Version Bumps
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "chore: apply version bumps"
+          git push origin main
+
+      - name: Push Tags
+        run: git push --tags
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          body_path: ./CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
