@@ -3,7 +3,7 @@ name: 🔖 Release
 on:
   push:
     branches:
-      - main # Trigger the release workflow when changes are pushed to the main branch
+      - main
 
 permissions:
   contents: write
