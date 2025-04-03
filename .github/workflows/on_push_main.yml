@@ -29,10 +29,7 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-
-      - name: Disable Husky for the changeset commit
-        run: HUSKY=0 
-
+        
       - name: Create Release Pull Request
         id: changesets
         uses: changesets/action@v1
